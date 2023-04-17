@@ -100,7 +100,7 @@ class BinarySearchTree {
     if (!this.base) {
       return null;
     }
-    if (!this.find(data).data) {
+    if (!this.find(data)) {
       return null;
     }
 
@@ -117,10 +117,12 @@ class BinarySearchTree {
       if(prev !== perent){
         prev.left = currNode.right;
       }else{
-        if (prev.right.data === delNode.data) {
+        if (prev && prev.right === delNode) {
           prev.right = currNode;
-        }else if(prev.left.data === delNode.data){
+        }else if(prev && prev.left=== delNode){
           prev.left = currNode;
+        }else if(delNode===this.base){
+          this.base=currNode
         }
       }
       currNode.left = delNode.left;
@@ -128,26 +130,34 @@ class BinarySearchTree {
 
       if(!perent){
         this.base=currNode
-      }else if (perent.right.data === delNode.data) {
-        perent.right = currNode;
-      } else if(perent.left.data === delNode.data){
-        perent.left = currNode;
       }
+    // }else if (perent.right.data === delNode.data) {
+    //     perent.right = currNode;
+    //   } else if(perent.left.data === delNode.data){
+    //     perent.left = currNode;
+    //   }
     }
 
     if (delNode.right && !delNode.left){
-      if (perent.right.data === delNode.data) {
+      if(delNode===this.base){
+        this.base=delNode.right;
+      }else{
         perent.right = delNode.right;
       } 
     }else if (!delNode.right && delNode.left) {
+      if(delNode===this.base){
+        this.base=delNode.left;
+      }else{
         perent.left = delNode.left;
-      
+      }
     }
 
     if (!delNode.right && !delNode.left) {
-      if (perent.right.data === delNode.data) {
+      if(delNode===this.base){
+        this.base=null;
+      }else if (perent.right && perent.right === delNode) {
         perent.right = null;
-      } else {
+      } else if(perent.left && perent.left=== delNode){
         perent.left = null;
       }
     }
